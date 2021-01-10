@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Thông tin lớp";
+}
+
+
+@if (ViewBag.Lop == null)
+{
+    <div style="margin-bottom: 20px">
+        <a href="@Url.Action("Index", "Lop")" class="btn btn-primary">Quay về danh sách lớp</a>
+    </div>
+    <div class="text-center">
+        <h4>Không tìm thấy lớp @Request.QueryString["lop"]</h4>
+        <h5>Vui lòng kiểm tra lại mã lớp hoặc quay về danh sách lớp</h5>
+    </div>
+}
+else
+{
+<div style="margin-bottom: 20px">
+    <a href="@Url.Action("Index", "Lop")" class="btn btn-primary">Quay về danh sách các lớp</a>
+    <a href="~/Reports/DanhSachLop.aspx?lop=@Request.QueryString["lop"]" target="_blank" class="btn btn-info">Danh sách học viên của lớp</a>
+    @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "C")
+    {
+        <a href="@Url.Action("ChamDiem", "Lop", new { lop = @Request.QueryString["lop"] })" class="btn btn-success">Chấm điểm</a>}
+</div>
+    <div>
+        <div class="text-center"><h3>Thông tin lớp học</h3></div>
+        <table class="table table-bordered">
+            <tr>
+                <th>Mã lớp</th>
+                <td>@ViewBag.Lop.MaLop</td>
+            </tr>
+            <tr>
+                <th>Chương trình</th>
+                <td>@ViewBag.Lop.TenCT</td>
+            </tr>
+            <tr>
+                <th>Độ dài của lớp học</th>
+                <td>
+                    @ViewBag.Lop.ThoiGianHoc<br /> @ViewBag.Lop.NgayKhaiGiang.ToShortDateString() - @ViewBag.Lop.NgayKetThuc.ToShortDateString()
+                </td>
+            </tr>
+            <tr>
+                <th>Sĩ số</th>
+                <td>@ViewBag.Lop.SiSo / @ViewBag.Lop.GioiHan</td>
+            </tr>
+            <tr>
+                <th>Học phí</th>
+                <td>@ViewBag.Lop.HocPhiCT.ToString("N0") VNĐ</td>
+            </tr>
+            <tr>
+                <th>Ca học</th>
+                <td>
+                    @if (ViewBag.Lop.CaHoc != null)
+                    {<span>@ViewBag.Lop.CaHoc</span>}
+                </td>
+            </tr>
+            <tr>
+                <th>Giáo viên</th>
+                <td>
+                    @if (ViewBag.Lop.MaGV != null)
+                    {<span id="lop-giaovien">@ViewBag.Lop.TenGV</span>}
+                    @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "A")
+                    {
+                    <button class="btn btn-info" id="btn-botri-giaovien">Thay đổi</button>
+                    <form id="botri-giaovien" style="display: none" class="form-inline">
+                        <input type="hidden" name="malop" value="@Request.QueryString["lop"]" />
+                        <select name="magv" class="form-control">
+                            @foreach (TOEIC_SaoKhue.Models.GIAOVIEN item in ViewBag.GiaoViens)
+                            {
+                                <option value="@item.MaGV">@item.TenGV</option>
+                            }
+                        </select>
+                        <input type="submit" class="btn btn-info" value="Lưu" />
+                    </form>}
+                </td>
+            </tr>
+        </table>
+    </div>
+}

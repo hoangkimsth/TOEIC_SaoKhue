@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Yêu cầu bảo lưu";
+}
+
+<div class="text-center">
+    <form class="form-inline" id="baoluu">
+        <input name="hocvien" class="form-control" placeholder="Mã học viên"/>
+        <input name="lop" class="form-control" placeholder="Mã lớp"/>
+        <input type="submit" class="btn btn-primary" value="Xin bảo lưu" />
+    </form>
+</div>
+<div style="margin-top: 20px">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Ngày xin bảo lưu</th>
+                <th>Lớp</th>
+                <th>Học viên</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (TOEIC_SaoKhue.Models.BAOLUU item in ViewBag.BaoLuus) { 
+            <tr>
+                <td>@item.NgayBaoLuu</td>
+                <td>@item.MaLop</td>
+                <td>@item.TenHV <i>(Số điện thoại: @item.SDTHV)</i></td>
+                <td>
+                    <form id="huy-baoluu">
+                        <input type="hidden" name="mahd" value="@item.MaHD" />
+                        <input type="hidden" name="lop" value="@item.MaLop" />
+                        <input type="submit" class="btn btn-danger" value="Hủy" />
+                    </form>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

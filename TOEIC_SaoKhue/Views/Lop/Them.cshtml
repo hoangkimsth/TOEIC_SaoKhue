@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Mở lớp";
+}
+
+<div>
+    <h3>Mở lớp</h3>
+    <form id="molop">
+        <div class="form-group row">
+            <label for="chuongtrinh" class="col-xs-3">Chương trình</label>
+            <select name="chuongtrinh" class="form-control col-xs-9" style="max-width: 600px">
+                @foreach (TOEIC_SaoKhue.Models.CHUONGTRINH item in ViewBag.ChuongTrinhs)
+                {
+                    <option value="@item.MaCT">@item.TenCT</option>
+                }
+            </select>
+        </div>
+        <div class="form-group row">
+            <label for="cahoc" class="col-xs-3">Ca học</label>
+            <select name="cahoc" class="form-control col-xs-9" style="max-width: 600px">
+                @foreach (TOEIC_SaoKhue.Models.CAHOC item in ViewBag.CaHocs)
+                {
+                    <option value="@item.MaCH">@item.NgayHoc @item.GioHoc</option>
+                }
+            </select>
+        </div>
+        <div class="form-group row">
+            <label for="giaovien" class="col-xs-3">Giáo viên</label>
+            <select name="giaovien" class="form-control col-xs-9" style="max-width: 600px">
+                @foreach (TOEIC_SaoKhue.Models.GIAOVIEN item in ViewBag.GiaoViens)
+                {
+                    <option value="@item.MaGV">@item.TenGV</option>
+                }
+            </select>
+        </div>
+        <div class="form-group row">
+            <label for="gioihan" class="col-xs-3">Sĩ số tối đa</label>
+            <input class="form-control" name="gioihan" type="number" style="max-width: 600px"/>
+        </div>
+        <div class="form-group row">
+            <label for="khaigiang" class="col-xs-3">Ngày khai giảng</label>
+            <input class="form-control" name="khaigiang" type="date" style="max-width: 600px"/>
+        </div>
+        <div class="form-group row">
+            <label for="ketthuc" class="col-xs-3">Ngày kết thúc</label>
+            <input class="form-control" name="ketthuc" type="date" style="max-width: 600px"/>
+        </div>
+        <div class="text-center">
+            <a href="@Url.Action("Index","Lop")" class="btn btn-danger">Hủy</a>
+            <input type="submit" value="Mở lớp" class="btn btn-success" />
+        </div>
+    </form>
+</div>

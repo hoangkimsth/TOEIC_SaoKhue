@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "Danh sách học viên";
+}
+
+<div class="row">
+    @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "B")
+    {
+    <div style="margin-bottom: 20px">
+        <form style="margin-bottom: 20px" class="form-inline" action="@Url.Action("Index", "HocVien")">
+            <input type="text" name="sdt" class="form-control" placeholder="Số điện thoại" />
+            <input type="submit" value="Tìm" class="btn btn-primary" />
+        </form>
+    </div>
+    <div style="margin-bottom: 20px">
+        <form class="form-inline" id="themhv">
+            <input name="hoten" class="form-control" placeholder="Họ tên" style="max-width: 300px; width: 300px"/>
+            <input name="sdt" class="form-control" placeholder="Số điện thoại" style="max-width: 300px; width: 300px" />
+            <input name="email" class="form-control" placeholder="Email" style="max-width: 300px; width: 300px"/>
+            <input type="submit" value="Thêm học viên" class="btn btn-default"/>
+        </form> 
+    </div>}
+    <div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Họ tên</th>
+                    <th>Số điện thoại</th>
+                    <th>Email</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (TOEIC_SaoKhue.Models.HOCVIEN item in ViewBag.HocViens)
+                {
+                    <tr>
+                        <td>
+                            @item.MaHV
+                        </td>
+                        <td>
+                            @item.TenHV
+                        </td>
+                        <td>
+                            @item.SDTHV
+                        </td>
+                        <td>
+                            @item.EmailHV
+                        </td>
+                        <td class="text-right">
+                            <a href="@Url.Action("Xem", "HocVien", new { hocvien = item.MaHV })" class="btn btn-info">Chi tiết</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            @{
+                short k = 1;
+                try { k = short.Parse(Request.QueryString["trang"]); } catch { } }
+            <div class="text-center">
+                <div class="btn-group">
+                    @if (k > 1)
+                    {
+                        <a href="@Url.Action("Index","HocVien", new { sdt = Request.QueryString["sdt"], trang = k - 1 })" class="btn btn-primary"><span class="glyphicon glyphicon-backward"></span></a>
+                    }
+                    @if (ViewBag.KeTiep > 0)
+                    {
+                        <a href="@Url.Action("Index","HocVien", new { sdt = Request.QueryString["sdt"], trang = k + 1 })" class="btn btn-primary"><span class="glyphicon glyphicon-forward"></span></a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

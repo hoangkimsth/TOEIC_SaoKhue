@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Thu học phí";
+}
+
+<div>
+    <div>
+        <h4>Thu học phí cho lớp:</h4>
+        <table class="table table-bordered">
+            <tr>
+                <th>Mã lớp</th>
+                <td>@ViewBag.Lop.MaLop</td>
+            </tr>
+            <tr>
+                <th>Chương trình</th>
+                <td>@ViewBag.Lop.CHUONGTRINH.TenCT</td>
+            </tr>
+            <tr>
+                <th>Độ dài của lớp học</th>
+                <td>
+                    @ViewBag.Lop.CHUONGTRINH.ThoiGianHoc<br /> @ViewBag.Lop.NgayKhaiGiang.ToShortDateString() - @ViewBag.Lop.NgayKetThuc.ToShortDateString()
+                </td>
+            </tr>
+            <tr>
+                <th>Học phí</th>
+                <td>@ViewBag.Lop.CHUONGTRINH.HocPhiCT.ToString("N0") VNĐ</td>
+            </tr>
+            <tr>
+                <th>Ca học</th>
+                <td>
+                    @if (ViewBag.Lop.CAHOC != null)
+                    {<span>@ViewBag.Lop.CAHOC.NgayHoc @ViewBag.Lop.CAHOC.GioHoc</span>}
+                </td>
+            </tr>
+            <tr>
+                <th>Giáo viên</th>
+                <td>
+                    @if (ViewBag.Lop.GIAOVIEN != null)
+                    {<span>@ViewBag.Lop.GIAOVIEN.TenGV</span>}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="text-center">
+        <form class="form-inline" id="thu_hocphidk">
+            <input name="sdt" type="hidden" value="@ViewBag.SDT" />
+            <input name="stt" type="hidden" value="@ViewBag.STT" />
+            <input name="lop" type="hidden" value="@ViewBag.Lop.MaLop" />
+            <input name="mahv" class="form-control" placeholder="Mã học viên" />
+            <input name="hocphi" class="form-control" placeholder="Học phí" type="number" value="@ViewBag.Lop.CHUONGTRINH.HocPhiCT" readonly/>
+            <input type="submit" class="btn btn-primary" value="Đã thu học phí" />
+        </form>
+    </div>
+</div>

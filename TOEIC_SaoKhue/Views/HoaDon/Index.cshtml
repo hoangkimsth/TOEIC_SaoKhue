@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Danh sách hóa đơn";
+}
+
+<div>
+    @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "B")
+    {
+    <div class="row">
+        <div class="col-xs-9">
+            <form class="form-inline" action="@Url.Action("Index", "HoaDon")">
+                <input type="text" name="sdt" class="form-control" placeholder="Số điện thoại học viên" />
+                <input type="submit" value="Tìm" class="btn btn-primary" />
+            </form>
+        </div>
+        <div class="col-xs-3 text-right">
+            <a href="@Url.Action("LapHoaDon", "HoaDon")" class="btn btn-primary">Lập hóa đơn</a>
+        </div>
+    </div>}
+    <div>
+        <table class="table table-hover" style="margin-top: 20px">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Học viên</th>
+                    <th>Số điện thoại</th>
+                    <th>Ngày lập</th>
+                    <th>Tổng</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (TOEIC_SaoKhue.Models.HOADON item in ViewBag.HoaDons)
+                {
+                    <tr>
+                        <td>
+                            @item.MaHD
+                        </td>
+                        <td>
+                            @item.TenHV
+                        </td>
+                        <td>
+                            @item.SDTHV
+                        </td>
+                        <td>
+                            @item.NgayLapHD.GetValueOrDefault().ToShortDateString()
+                        </td>
+                        <td>
+                            @item.HocPhiDong.GetValueOrDefault().ToString("N0") vnđ
+                        </td>
+                        <td class="text-right">
+                            <a href="@Url.Action("Xem","HoaDon", new { hoadon = item.MaHD })" class="btn btn-info">Chi tiết</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            @{
+                short k = 1;
+                try { k = short.Parse(Request.QueryString["trang"]); } catch { } }
+            <div class="text-center">
+                <div class="btn-group">
+                    @if (k > 1)
+                    {
+                        <a href="@Url.Action("Index","HoaDon", new { sdt = Request.QueryString["sdt"], trang = k - 1 })" class="btn btn-primary"><span class="glyphicon glyphicon-backward"></span></a>
+                    }
+                    @if (ViewBag.KeTiep > 0)
+                    {
+                        <a href="@Url.Action("Index","HoaDon", new { sdt = Request.QueryString["sdt"], trang = k + 1 })" class="btn btn-primary"><span class="glyphicon glyphicon-forward"></span></a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

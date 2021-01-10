@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Các ca học";
+}
+
+<div>
+    @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "A")
+    { 
+    <div style="margin-bottom: 20px;" class="text-center">
+        <form class="form-inline" id="them-ch">
+            <input name="giohoc" placeholder="Giờ học" class="form-control" />
+            <input name="ngayhoc" placeholder="Ngày học" class="form-control" />
+            <input type="submit" class="btn btn-primary" value="Thêm ca học" />
+        </form>
+        <form class="form-inline" id="capnhat-ch" style="display: none;">
+            <input name="mach" type="hidden" id="capnhat-ch-mach" />
+            <input name="giohoc" placeholder="Giờ học" class="form-control" id="capnhat-ch-giohoc" />
+            <input name="ngayhoc" placeholder="Ngày học" class="form-control" id="capnhat-ch-ngayhoc" />
+            <input type="submit" class="btn btn-success" value="Cập nhật" />
+            <a href="@Url.Action("Index","CaHoc")" class="btn btn-danger">Hủy</a>
+        </form>
+    </div>
+    }    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Giờ học</th>
+                <th>Ngày học</th>
+                @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "A")
+                {<th></th>}
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (TOEIC_SaoKhue.Models.CAHOC item in ViewBag.CaHocs)
+            {
+                <tr>
+                    <td>@item.MaCH</td>
+                    <td>@item.GioHoc</td>
+                    <td>@item.NgayHoc</td>
+                    @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "A") { 
+                    <td class="text-right">
+                        <table style="width: auto; margin-right: 0px; margin-left: auto;">
+                            <tr>
+                                <td>
+                                    <button class="btn btn-warning capnhat-ch" value="@item.MaCH|@item.GioHoc|@item.NgayHoc" id="btn-capnhat-ch">Cập nhật</button>
+                                </td>
+                                <td style="padding-left: 10px">
+                                    <form class="xoa-ch">
+                                        <input type="hidden" name="mach" value="@item.MaCH" />
+                                        <input type="submit" class="btn btn-danger" value="Xóa" />
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    }                    
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

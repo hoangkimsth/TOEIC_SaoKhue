@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Các chương trình học";
+}
+
+<div>
+    @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "A")
+    {
+    <div style="margin-bottom: 20px;" class="text-center">
+        <form class="form-inline" id="them-ct">
+            <input name="mact" placeholder="Mã chương trình" class="form-control" />
+            <input name="tenct" placeholder="Tên chương trình" class="form-control" />
+            <input name="thoigianhoc" placeholder="Thời gian học" class="form-control" />
+            <input name="hocphi" placeholder="Học phí" class="form-control" type="number" />
+            <input type="submit" class="btn btn-primary" value="Thêm chương trình học" />
+        </form>
+        <form class="form-inline" id="capnhat-ct" style="display: none;">
+            <input name="mact" placeholder="Mã chương trình" class="form-control" readonly id="capnhat-mact"/>
+            <input name="tenct" placeholder="Tên chương trình" class="form-control" id="capnhat-tenct"/>
+            <input name="thoigianhoc" placeholder="Thời gian học" class="form-control" id="capnhat-thoigianhoc"/>
+            <input name="hocphi" placeholder="Học phí" class="form-control" type="number" id="capnhat-hocphi"/>
+            <input type="submit" class="btn btn-success" value="Cập nhật" />
+            <a href="@Url.Action("Index", "ChuongTrinh")" class="btn btn-danger">Hủy</a>
+        </form>
+    </div>}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Tên chương trình</th>
+                <th>Thời gian học</th>
+                <th>Học phí</th>
+                @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "A")
+                {
+                <th></th>}
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (TOEIC_SaoKhue.Models.CHUONGTRINH item in ViewBag.ChuongTrinhs)
+            {
+                <tr>
+                    <td>@item.MaCT</td>
+                    <td>@item.TenCT</td>
+                    <td>@item.ThoiGianHoc</td>
+                    <td>@item.HocPhiCT.ToString("N0") vnđ</td>
+                    @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "A")
+                    {
+                    <td class="text-right">
+                        <button class="btn btn-warning capnhat-ct" value="@item.MaCT|@item.TenCT|@item.ThoiGianHoc|@item.HocPhiCT">Cập nhật</button>
+                    </td>}
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

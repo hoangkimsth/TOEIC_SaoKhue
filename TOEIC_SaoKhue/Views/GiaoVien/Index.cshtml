@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "Danh sách giáo viên";
+}
+
+<div>
+    @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "A")
+    {
+    <div style="margin-bottom: 20px;" class="text-center">
+        <form class="form-inline" id="them-gv">
+            <input name="ten" placeholder="Tên giáo viên" class="form-control" />
+            <input name="sdt" placeholder="Số điện thoại" class="form-control" />
+            <input type="submit" class="btn btn-primary" value="Thêm giáo viên" />
+        </form>
+        <form class="form-inline" id="capnhat-gv" style="display: none;">
+            <input name="magv" id="capnhat-magv" class="form-control" style="width: 90px" readonly/>
+            <input name="ten" placeholder="Tên giáo viên" class="form-control" id="capnhat-tengv"/>
+            <input name="sdt" placeholder="Số điện thoại" class="form-control" id="capnhat-sdtgv"/>
+            <input type="submit" class="btn btn-success" value="Cập nhật" />
+            <a href="@Url.Action("Index", "GiaoVien")" class="btn btn-danger">Hủy</a>
+        </form>
+    </div>
+    }
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Họ tên</th>
+                <th>Số điện thoại</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (TOEIC_SaoKhue.Models.GIAOVIEN item in ViewBag.GiaoViens)
+            {
+                <tr>
+                    <td>@item.MaGV</td>
+                    <td>@item.TenGV</td>
+                    <td>@item.SDTGV</td>
+                    <td class="text-right">
+                        <table style="width: auto; margin-right: 0px; margin-left: auto;">
+                            <tr>
+                                <td style="padding-left: 10px">
+                                    <a class="btn btn-info" href="@Url.Action("LichSuDay", "GiaoVien", new { giaovien = item.MaGV })">Lịch sử dạy học</a>
+                                </td>
+
+                                @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "A")
+                                {
+                                    <td style="padding-left: 10px">
+                                        <button class="btn btn-warning capnhat-gv" value="@item.MaGV|@item.TenGV|@item.SDTGV">Cập nhật</button>
+                                    </td>
+                                    <td style="padding-left: 10px">
+                                        <form class="xoa-gv">
+                                            <input type="hidden" name="magv" value="@item.MaGV" />
+                                            <input type="submit" class="btn btn-danger" value="Xóa" />
+                                        </form>
+                                    </td>
+                                    }
+                                </tr>
+                        </table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

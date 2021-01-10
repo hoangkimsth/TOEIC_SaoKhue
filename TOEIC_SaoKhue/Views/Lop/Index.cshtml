@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "Danh sách các lớp";
+}
+
+<div class="row">
+    <div class="col-sm-6 col-md-4">
+        <form style="margin-bottom: 10px" class="form-inline" action="@Url.Action("Xem","Lop")">
+            <input type="text" name="lop" class="form-control" placeholder="Mã lớp"/>
+            <input type="submit" value="Tìm" class="btn btn-primary" />
+        </form>
+        <div>
+            <div class="list-group list-group-item-info">
+                @if (Request.QueryString["loc"] == null) { <a href="@Url.Action("Index", "Lop", new { chuongtrinh = Request.QueryString["chuongtrinh"] })" class="list-group-item active">Tất cả</a> }
+                else { <a href="@Url.Action("Index", "Lop", new { chuongtrinh = Request.QueryString["chuongtrinh"] })" class="list-group-item">Tất cả</a> }
+                @if (Request.QueryString["loc"] == "1") { <a href="@Url.Action("Index", "Lop", new { loc = 1, chuongtrinh = Request.QueryString["chuongtrinh"] })" class="list-group-item active">Đang học</a> }
+                else { <a href="@Url.Action("Index", "Lop", new { loc = 1, chuongtrinh = Request.QueryString["chuongtrinh"] })" class="list-group-item">Đang học</a> }
+                @if (Request.QueryString["loc"] == "2") { <a href="@Url.Action("Index", "Lop", new { loc = 2, chuongtrinh = Request.QueryString["chuongtrinh"] })" class="list-group-item active">Chưa khai giảng</a> }
+                else { <a href="@Url.Action("Index", "Lop", new { loc = 2, chuongtrinh = Request.QueryString["chuongtrinh"] })" class="list-group-item">Chưa khai giảng</a> }
+                @if (Request.QueryString["loc"] == "3") { <a href="@Url.Action("Index", "Lop", new { loc = 3, chuongtrinh = Request.QueryString["chuongtrinh"] })" class="list-group-item active">Đã kết thúc</a> }
+                else { <a href="@Url.Action("Index", "Lop", new { loc = 3, chuongtrinh = Request.QueryString["chuongtrinh"] })" class="list-group-item">Đã kết thúc</a> }
+            </div>
+        </div>
+        <div>
+            <div class="list-group list-group-item-info">
+                <div class="list-group-item list-group-item-info">Chương trình học</div>
+                @if (Request.QueryString["chuongtrinh"] == null)
+                {<a href="@Url.Action("Index", "Lop", new { loc = Request.QueryString["loc"] })" class="list-group-item active">Tất cả</a> }
+                else
+                { <a href="@Url.Action("Index", "Lop", new { loc = Request.QueryString["loc"] })" class="list-group-item">Tất cả</a>}
+                @foreach (TOEIC_SaoKhue.Models.CHUONGTRINH item in ViewBag.ChuongTrinhs)
+                {
+                    if (Request.QueryString["chuongtrinh"] == item.MaCT)
+                    {<a href="@Url.Action("Index", "Lop", new { loc = Request.QueryString["loc"], chuongtrinh = item.MaCT })" class="list-group-item active">@item.TenCT</a> }
+                    else
+                    { <a href="@Url.Action("Index", "Lop", new { loc = Request.QueryString["loc"], chuongtrinh = item.MaCT })" class="list-group-item">@item.TenCT</a>}
+                }
+            </div>
+        </div>        
+    </div>
+    <div class="col-sm-6 col-md-8">
+        @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "A")
+        {
+        <div class="text-right" style="margin-bottom: 20px">
+            <a href="@Url.Action("Them", "Lop")" class="btn btn-primary">Mở lớp</a>
+        </div>
+        }
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Giáo viên</th>
+                    <th>Ca học</th>
+                    <th>Khai giảng</th>
+                    <th>Sĩ số</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (TOEIC_SaoKhue.Models.LOP item in ViewBag.Lops)
+                {
+                <tr>
+                    <td>
+                        @item.MaLop
+                    </td>
+                    <td>
+                        @item.TenGV
+                    </td>
+                    <td>
+                        @item.CaHoc
+                    </td>
+                    <td>
+                        @item.NgayKhaiGiang.ToShortDateString()
+                    </td>
+                    <td>
+                        @item.SiSo / @item.GioiHan
+                    </td>
+                    <td class="text-right">
+                        <div>
+                            <table style="width: auto; margin-right: 0px; margin-left: auto">
+                                <tbody>
+                                    <tr>
+                                        <td><a href="@Url.Action("Xem", "Lop", new { lop = item.MaLop })" class="btn btn-info">Chi tiết</a></td>
+                                        @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "A")
+                                        {
+                                        <td>
+                                            <form class="huy-lop">
+                                                <input type="hidden" name="lop" value="@item.MaLop" />
+                                                <input type="submit" class="btn btn-warning" value="Hủy" />
+                                            </form>
+                                        </td>}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>}
+            </tbody>
+        </table>
+        <div>
+            @{
+                short k = 1;
+                try { k = short.Parse(Request.QueryString["trang"]); } catch { } }
+            <div class="text-center">
+                <div class="btn-group">
+                    @if (k > 1) { 
+                    <a href="@Url.Action("Index","Lop", new { loc = Request.QueryString["loc"], chuongtrinh = Request.QueryString["chuongtrinh"], trang = k - 1 })" class="btn btn-primary"><span class="glyphicon glyphicon-backward"></span></a>
+                    }
+                    @if (ViewBag.KeTiep > 0)
+                    {
+                    <a href="@Url.Action("Index","Lop", new { loc = Request.QueryString["loc"], chuongtrinh = Request.QueryString["chuongtrinh"], trang = k + 1 })" class="btn btn-primary"><span class="glyphicon glyphicon-forward"></span></a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

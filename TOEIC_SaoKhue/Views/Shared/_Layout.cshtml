@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOEIC Sao Khuê :: @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("TOEIC Sao Khuê", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "A")
+            {
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Quản lý tài khoản", "Index", "TaiKhoan")</li>
+                        <li>@Html.ActionLink("Ca học", "Index", "CaHoc")</li>
+                        <li>@Html.ActionLink("Chương trình", "Index", "ChuongTrinh")</li>
+                        <li>@Html.ActionLink("Giáo viên", "Index", "GiaoVien")</li>
+                        <li>@Html.ActionLink("Lớp", "Index", "Lop")</li>
+                        <li>@Html.ActionLink("Học viên", "Index", "HocVien")</li>
+                        <li><a href="~/Reports/DoanhThu.aspx" target="_blank">Doanh thu</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>@Html.ActionLink("Đăng xuất", "DangXuat", "TaiKhoan")</li>
+                    </ul>
+                </div>
+            }
+            @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "B")
+            {
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Ca học", "Index", "CaHoc")</li>
+                        <li>@Html.ActionLink("Chương trình", "Index", "ChuongTrinh")</li>
+                        <li>@Html.ActionLink("Giáo viên", "Index", "GiaoVien")</li>
+                        <li>@Html.ActionLink("Lớp", "Index", "Lop")</li>
+                        <li>@Html.ActionLink("Học viên", "Index", "HocVien")</li>
+                        <li>@Html.ActionLink("Đăng ký", "Index", "DangKy")</li>
+                        <li>@Html.ActionLink("Hóa đơn", "Index", "HoaDon")</li>
+                        <li>@Html.ActionLink("Chuyển lớp", "Index", "ChuyenLop")</li>
+                        <li>@Html.ActionLink("Bảo lưu", "Index", "BaoLuu")</li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>@Html.ActionLink("Đăng xuất", "DangXuat", "TaiKhoan")</li>
+                    </ul>
+                </div>
+            }
+            @if (Session["taikhoan"] != null && ((TOEIC_SaoKhue.Models.TAIKHOAN)Session["taikhoan"]).LoaiTK == "C")
+            {
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Ca học", "Index", "CaHoc")</li>
+                        <li>@Html.ActionLink("Chương trình", "Index", "ChuongTrinh")</li>
+                        <li>@Html.ActionLink("Giáo viên", "Index", "GiaoVien")</li>
+                        <li>@Html.ActionLink("Lớp", "Index", "Lop")</li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>@Html.ActionLink("Đăng xuất", "DangXuat", "TaiKhoan")</li>
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="container body-content">
+        <div style="        margin: 10px 0px 10px 0px">
+            @RenderBody()
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - TOEIC Sao Khuê</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    
+    @RenderSection("scripts", required: false)
+</body>
+</html>

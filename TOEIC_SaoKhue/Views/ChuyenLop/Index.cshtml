@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Yêu cầu chuyển lớp";
+}
+
+<div class="text-center">
+    <h3>Yêu cầu chuyển lớp</h3>
+</div>
+<div style="margin-top: 20px" class="text-center">
+    <form class="form-inline" id="chuyenlop">
+        <input name="hocvien" class="form-control" placeholder="Mã học viên" id="chuyenlop-mahv"/>
+        <input name="lop_cu" class="form-control" placeholder="Mã lớp cũ" id="chuyenlop-malopcu"/>
+        <input name="lop_moi" class="form-control" placeholder="Mã lớp mới" id="chuyenlop-malopmoi"/>
+        <input type="submit" class="btn btn-primary" value="Yêu cầu chuyển lớp"/>
+    </form>
+</div>
+<div style="margin-top: 20px">
+    <div class="form-group row">
+        <div class="col-xs-3"><b>Học viên</b></div>
+        <div class="col-xs-9" id="chuyenlop-hocvien"></div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-3"><b>Lớp cũ</b></div>
+        <div class="col-xs-9" id="chuyenlop-lopcu"></div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-3"><b>Lớp mới</b></div>
+        <div class="col-xs-9" id="chuyenlop-lopmoi"></div>
+    </div>
+</div>

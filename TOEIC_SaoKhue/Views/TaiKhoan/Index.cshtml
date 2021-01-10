@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý truy cập";
+}
+
+<div class="text-center" style="margin-bottom: 20px;">
+    <form class="form-inline" id="them-tk">
+        <input name="username" placeholder="Username" class="form-control" />
+        <input name="password" type="password" placeholder="Mật khẩu" class="form-control" />
+        <select name="loai" class="form-control">
+            <option value="A">Bộ phận quản lý</option>
+            <option value="B">Nhân viên tư vấn</option>
+            <option value="C">Giáo viên</option>
+        </select>
+        <input type="submit" value="Tạo tài khoản" class="btn btn-primary" />
+    </form>
+    <form class="form-inline" id="doi-matkhau" style="display: none">
+        <input name="matk" type="hidden" id="doi-matkhau-matk"/>
+        <input name="username" placeholder="Username" class="form-control" id="doi-matkhau-username" disabled/>
+        <input name="password" type="password" placeholder="Mật khẩu mới" class="form-control" />
+        <div class="btn btn-group">
+            <a href="@Url.Action("Index","TaiKhoan")" class="btn btn-danger">Hủy</a>
+            <input type="submit" value="Đổi mật khẩu" class="btn btn-success" />
+        </div>
+    </form>
+</div>
+<div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Mật khẩu</th>
+                <th>Loại tài khoản</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (TOEIC_SaoKhue.Models.TAIKHOAN item in ViewBag.TaiKhoans) { 
+            <tr>
+                <td>@item.Username</td>
+                <td>@item.Password</td>
+                <td>
+                    @switch (item.LoaiTK)
+                    {
+                        case "A":
+                            {
+                                <span>Bộ phận quản lý</span>
+                                break;
+                            }
+                        case "B":
+                            {
+                                <span>Nhân viên tư vấn</span>
+                                break;
+                            }
+                        case "C":
+                            {
+                                <span>Giáo viên</span>
+                                break;
+                            }
+                    }
+                </td>
+                <td class="text-right">
+                    <table style="width: auto; margin-right: 0px; margin-left: auto;">
+                        <tr>
+                            <td>
+                                <button class="btn btn-warning doi-matkhau" value="@item.MaTK|@item.Username">Đổi mật khẩu</button>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <form class="xoa-taikhoan">
+                                    <input type="hidden" name="matk" value="@item.MaTK" />
+                                    <input type="submit" class="btn btn-danger" value="Xóa"/>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

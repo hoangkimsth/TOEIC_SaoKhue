@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "Chi tiết hóa đơn";
+}
+
+<div style="margin-bottom: 20px">
+    <a href="@Url.Action("Index", "HoaDon")" class="btn btn-primary">Quay về danh sách hóa đơn</a>
+</div>
+@if (ViewBag.HoaDon == null)
+{
+    <div class="text-center">
+        <h4>Không tìm thấy hóa đơn @Request.QueryString["hoadon"]</h4>
+        <h5>Vui lòng kiểm tra lại mã hóa đơn hoặc quay về danh sách hóa đơn</h5>
+    </div>
+}
+else
+{
+<div>
+    <div class="text-center"><h3>Thông tin hóa đơn</h3></div>
+    <div class="form-group row">
+        <div class="col-xs-3">
+            <b>Mã hóa đơn</b>
+        </div>
+        <div class="col-xs-9">
+            @ViewBag.HoaDon.MaHD
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-3">
+            <b>Ngày lập hóa đơn</b>
+        </div>
+        <div class="col-xs-9">
+            @ViewBag.HoaDon.NgayLapHD.ToShortDateString()
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-3">
+            <b>Học viên</b>
+        </div>
+        <div class="col-xs-9">
+            @ViewBag.HoaDon.TenHV
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-3">
+            <b>Số điện thoại</b>
+        </div>
+        <div class="col-xs-9">
+            @ViewBag.HoaDon.SDTHV
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-3">
+            <b>Học phí</b>
+        </div>
+        <div class="col-xs-9">
+            @ViewBag.HoaDon.HocPhiDong.ToString("N0") vnđ
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-3">
+            <b>Lớp</b>
+        </div>
+        <div class="col-xs-9">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Mã lớp</th>
+                        <th>Giáo viên</th>
+                        <th>Ngày học</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (TOEIC_SaoKhue.Models.LOP item in ViewBag.Lops) { 
+                    <tr>
+                        <td>
+                            @item.MaLop
+                        </td>
+                        <td>
+                            @item.TenGV
+                        </td>
+                        <td>
+                            @item.NgayKhaiGiang.ToShortDateString() - @item.NgayKetThuc.ToShortDateString()
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>    
+</div>
+}

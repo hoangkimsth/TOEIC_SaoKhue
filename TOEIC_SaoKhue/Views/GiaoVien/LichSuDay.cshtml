@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Lịch sử dạy";
+}
+
+<div style="margin-bottom: 20px">
+    <a href="@Url.Action("Index", "GiaoVien")" class="btn btn-primary">Quay về danh sách giáo viên</a>
+</div>
+@if (ViewBag.GiaoVien == null)
+{
+    <div class="text-center">
+        <h4>Không tìm thấy giáo viên @Request.QueryString["giaovien"]</h4>
+        <h5>Vui lòng kiểm tra lại mã giáo viên hoặc quay về danh sách giáo viên</h5>
+    </div>
+}
+else
+{
+<div>
+    <div class="row">
+        <div class="col-xs-3"><b>Mã giáo viên: </b>@ViewBag.GiaoVien.MaGV</div>
+        <div class="col-xs-9"><b>Họ tên: </b>@ViewBag.GiaoVien.TenGV</div>
+    </div>
+    <table class="table table-hover" style="margin-top: 20px">
+        <thead>
+            <tr>
+                <th>Mã lớp</th>
+                <th>Ca học</th>
+                <th>Sĩ số</th>
+                <th>Ngày khai giảng</th>
+                <th>Ngày kết thúc</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (TOEIC_SaoKhue.Models.LICHSUDAY items in ViewBag.Lops)
+            {
+                <tr>
+                    <td>@items.MaLop</td>
+                    <td>
+                        @if (items.MaCH != null) { 
+                            <span>@items.CaHoc</span>
+                        }
+                    </td>
+                    <td>@items.SiSo / @items.GioiHan</td>
+                    <td>@items.NgayKhaiGiang</td>
+                    <td>@items.NgayKetThuc</td>
+                    <td class="text-right">
+                        <a href="@Url.Action("Xem","Lop",new { lop = items.MaLop })" class="btn btn-info">Chi tiết</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        @{
+            short k = 1;
+            try { k = short.Parse(Request.QueryString["trang"]); } catch { } }
+        <div class="text-center">
+            <div class="btn-group">
+                @if (k > 1)
+                {
+                    <a href="@Url.Action("LichSuDay","GiaoVien", new { giaovien = Request.QueryString["giaovien"], trang = k - 1 })" class="btn btn-primary"><span class="glyphicon glyphicon-backward"></span></a>
+                }
+                @if (ViewBag.KeTiep > 0)
+                {
+                    <a href="@Url.Action("LichSuDay","GiaoVien", new { giaovien = Request.QueryString["giaovien"], trang = k + 1 })" class="btn btn-primary"><span class="glyphicon glyphicon-forward"></span></a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+}

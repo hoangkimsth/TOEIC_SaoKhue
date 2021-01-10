@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Thông tin lớp";
+}
+
+
+<div style="margin-bottom: 20px">
+    <a href="@Url.Action("Index", "HocVien")" class="btn btn-primary">Quay về danh sách học viên</a>
+</div>
+@if (ViewBag.HocVien == null)
+{
+    <div class="text-center">
+        <h4>Không tìm thấy học viên @Request.QueryString["lop"]</h4>
+        <h5>Vui lòng kiểm tra lại mã học viên hoặc quay về danh sách học viên</h5>
+    </div>
+}
+else
+{
+    <div>
+        <div class="text-center"><h3>Thông tin học viên</h3></div>
+        <table class="table table-bordered">
+            <tr>
+                <th>Họ tên</th>
+                <td>@ViewBag.HocVien.TenHV</td>
+            </tr>
+            <tr>
+                <th>Số điện thoại</th>
+                <td>
+                    @ViewBag.HocVien.SDTHV
+                </td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>@ViewBag.HocVien.EmailHV</td>
+            </tr>
+        </table>
+        <div class="text-center" style="margin-top: 20px">
+            <h3>Học bạ</h3>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">Mã lớp</th>
+                        <th class="text-center">Điểm chuyên cần</th>
+                        <th class="text-center">Điểm cuối kỳ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (TOEIC_SaoKhue.Models.LICHSUHOC item in ViewBag.LichSuHocs) { 
+                    <tr>
+                        <td>
+                            @item.MaLop
+                        </td>
+                        <td>@item.DiemChuyenCan</td>
+                        <td>@item.DiemCuoiKy</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

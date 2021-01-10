@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "Chấm điểm cho lớp "+Request.QueryString["lop"];
+}
+
+<a href="@Url.Action("Xem","Lop", new { lop = Request.QueryString["lop"]})" class="btn btn-primary">Hoàn tất</a>
+<div class="table table-hover" style="margin-top: 20px">
+    <div class="row" style="font-weight: bold; margin-bottom: 10px">
+        <div class="col-xs-5">Tên học viên</div>
+        <div class="col-xs-3">Số điện thoại</div>
+        <div class="col-xs-2">Điểm chuyên cần</div>
+        <div class="col-xs-2">Điểm cuối kỳ</div>        
+    </div>
+    @foreach (TOEIC_SaoKhue.Models.HOCVIEN_LOP item in ViewBag.HocViens)
+    {
+        <form class="row chamdiem" style="margin-bottom: 10px">
+            <input type="hidden" name="mahd" value="@item.MaHD" />
+            <input type="hidden" name="malop" value="@Request.QueryString["lop"]" />
+            <div class="col-xs-5">
+                <div style="padding-top: 8px">@item.TenHV</div>
+            </div>
+            <div class ="col-xs-3">
+                <div style="padding-top: 8px">@item.SDT</div>
+            </div>
+            <div class="col-xs-2">
+                <input class="form-control chamdiem-chuyencan" name="diemchuyencan" style="width: 100%" value="@item.DiemChuyenCan" />
+            </div>
+            <div class="col-xs-2">
+                <input class="form-control chamdiem-cuoiky" name="diemcuoiky" style="width: 100%" value="@item.DiemCuoiKy" />
+            </div>
+        </form>
+    }
+</div>
+

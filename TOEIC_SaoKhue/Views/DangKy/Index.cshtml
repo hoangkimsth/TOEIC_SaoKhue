@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Danh sách đăng ký";
+}
+
+<div class="row">
+    <div class="col-xs-4">
+        <form style="margin-bottom: 10px" class="form-inline" action="@Url.Action("Index","DangKy")">
+            <input type="text" name="sdt" class="form-control" placeholder="Số điện thoại" />
+            <input type="submit" value="Tìm" class="btn btn-primary" />
+        </form>
+        <div>
+            <div class="list-group list-group-item-info">
+                @if (Request.QueryString["loc"] == null)
+                {<a href="@Url.Action("Index", "DangKy", new { sdt = Request.QueryString["sdt"] })" class="list-group-item active">Tất cả</a> }
+                else
+                { <a href="@Url.Action("Index", "DangKy", new { sdt = Request.QueryString["sdt"] })" class="list-group-item">Tất cả</a>}
+                @if (Request.QueryString["loc"] == "1")
+                {<a href="@Url.Action("Index", "DangKy", new { loc = 1, sdt = Request.QueryString["sdt"] })" class="list-group-item active">Lớp đã khai giảng</a> }
+                else
+                { <a href="@Url.Action("Index", "DangKy", new { loc = 1, sdt = Request.QueryString["sdt"] })" class="list-group-item">Lớp đã khai giảng</a>}
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-8">
+        <div class="text-right">
+            <form class="form-inline" id="dangky">
+                <input class="form-control" name="sdt" placeholder="Số điện thoại" />
+                <input class="form-control" name="ten" placeholder="Tên" />
+                <input class="form-control" name="lop" placeholder="Mã lớp" />
+                <input type="submit" class="btn btn-primary" value="Đăng ký mới"/>
+            </form>
+        </div>
+        <table class="table table-hover" style="margin-top: 20px">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>SDT</th>
+                    <th>Họ tên</th>
+                    <th>Lớp</th>
+                    <th>Khai giảng</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (TOEIC_SaoKhue.Models.DANGKY item in ViewBag.DangKys)
+                {
+                    <tr>
+                        <td>@item.MaDK</td>
+                        <td>
+                            @item.SDT
+                        </td>
+                        <td>
+                            @item.TenDK
+                        </td>
+                        <td>
+                            @item.MaLop
+                        </td>
+                        <td>
+                            @item.NgayKhaiGiang.ToShortDateString()
+                        </td>
+                        <td>
+                            <table style="width: auto; margin-right: 0px; margin-left: auto">
+                                <tr>
+                                    <td>
+                                        <form class="huydk">
+                                            <input type="hidden" name="madk" value="@item.MaDK" />
+                                            <input type="submit" class="btn btn-warning" value="Hủy" />
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            @{
+                short k = 1;
+                try { k = short.Parse(Request.QueryString["trang"]); } catch { } }
+            <div class="text-center">
+                <div class="btn-group">
+                    @if (k > 1)
+                    {
+                        <a href="@Url.Action("Index","DangKy", new { sdt = Request.QueryString["sdt"], loc = Request.QueryString["loc"], trang = k - 1 })" class="btn btn-primary"><span class="glyphicon glyphicon-backward"></span></a>
+                    }
+                    @if (ViewBag.KeTiep > 0)
+                    {
+                        <a href="@Url.Action("Index","DangKy", new { sdt = Request.QueryString["sdt"], loc = Request.QueryString["loc"], trang = k + 1 })" class="btn btn-primary"><span class="glyphicon glyphicon-forward"></span></a>
+                    }                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
